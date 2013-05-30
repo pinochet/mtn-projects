@@ -1,0 +1,57 @@
+<project name="PinProject" default="dist" basedir=".">
+<property name="config" location="config"/>
+<property name="build" location="build"/>
+<property name="lib" location="lib"/>
+<property name="src" location="src"/>
+<property name="jar" location="jar"/>
+<property name="dist" location="dist"/>
+<property name="tmp" location="tmp"/>
+<property name="test" location="test"/>
+<path id="build.classpath">
+<fileset dir="${lib}">
+<include name="**/*.jar"/>
+</fileset>
+</path>
+<target name="clean">
+<delete dir="${build}"/>
+<delete dir="${jar}"/>
+<delete dir="${tmp}"/>
+<delete dir="${dist}"/>
+</target>
+<target name="init">
+<tstamp>
+<format property="component.timestamp" pattern="yyyy_MM_dd_hh_mm_ss_aa"/>
+</tstamp>
+<mkdir dir="${build}"/>
+</target>
+<target name="compile" depends="init">
+<javac srcdir="${src}" destdir="${build}" classpathref="build.classpath"/>
+</target>
+<target name="test" depends="compile">
+<junit>
+<classpath refid="build.classpath"/>
+<formatter type="brief" usefile="false"/>
+<batchtest>
+<fileset dir="${test}">
+<include name="${test}/com/test/*.java"/>
+</fileset>
+</batchtest>
+</junit>
+</target>
+<target name="jar" depends="test">
+<mkdir dir="${jar}"/>
+<jar destfile="${jar}/myproject.jar" basedir="${build}"/>
+</target>
+<target name="dist" depends="jar">
+<mkdir dir="${dist}" />
+<mkdir dir="${tmp}" />
+<copy file="${jar}/myproject.jar" todir="${tmp}"/>
+<copy todir="${tmp}">
+<fileset dir="${lib}"></fileset>
+</copy>
+<copy file="${config}/project.properties" todir="${tmp}"/>
+<zip destfile="${dist}/${component.timestamp}_myproject.zip"
+basedir="${tmp}"
+update="true"/>
+</target>
+</project>
