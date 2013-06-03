@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mtn.training</groupId>
+    <artifactId>ci-training</artifactId>
+    <packaging>jar</packaging>
+    <version>2.0-reliz</version>
+    <name>Kaminski</name>
+
+<build>
+<defaultGoal>deploy</defaultGoal>
+<plugins>
+<plugin>
+    <artifactId>maven-clean-plugin</artifactId>
+    <version>2.2</version>
+    <executions>
+      <execution>
+       <id>auto-clean</id>
+        <phase>validate</phase>
+        <goals>
+          <goal>clean</goal>
+        </goals>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${project.build.outputDirectory}</directory>
+            </fileset>
+           </filesets>
+         </configuration>
+      </execution>
+    </executions>
+  </plugin>
+<plugin>
+   <groupId>com.keyboardsamurais.maven</groupId>
+   <artifactId>maven-timestamp-plugin</artifactId>
+   <version>1.0</version>
+   <configuration>
+    <propertyName>timestamp</propertyName>
+    <timestampPattern>dd.MM.yyyy-HH-mm</timestampPattern>
+   </configuration>
+   <executions>
+    <execution>
+     <goals>
+      <goal>create</goal>
+     </goals>
+    </execution>
+   </executions>
+  </plugin>
+<plugin>
+<artifactId>maven-assembly-plugin</artifactId>
+<configuration>
+    <archive>
+        <manifest>
+            <mainClass>package.MessageReceiver</mainClass>
+        </manifest>
+    </archive>
+    <descriptors>
+        <descriptor>jar.xml</descriptor>
+        <descriptor>zip.xml</descriptor>
+    </descriptors>
+</configuration>
+<executions>
+    <execution>
+        <id>make-assembly</id>
+        <phase>package</phase>
+        <goals>
+            <goal>single</goal>
+        </goals>
+    </execution>
+</executions>
+</plugin>
+</plugins>
+</build>
+
+<distributionManagement>
+  <repository>
+     <id>releases</id>
+     <name>Releases Repo</name>
+     <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+  </repository>
+  <snapshotRepository>
+     <id>snapshots</id>
+     <name>Snapshot Repo</name>
+     <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
+
+<dependencies>
+ <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+      <scope>test</scope>
+ </dependency>
+ <dependency>
+	<groupId>commons-collections</groupId>
+	<artifactId>commons-collections</artifactId>
+	<version>3.2.1</version>
+</dependency>
+ </dependencies>
+
+</project>
