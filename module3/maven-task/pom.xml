@@ -6,7 +6,7 @@
     <groupId>com.mtn.training</groupId>
     <artifactId>ci-training</artifactId>
     <packaging>jar</packaging>
-    <version>4.5-release</version>
+    <version>4.6-release</version>
     <name>Kaminski</name>
 
 <build>
